@@ -7,7 +7,7 @@ pop_size = 50
 prt = 0.3
 path_lenght = 3
 step = 0.33
-iterations = 30
+iterations = 3 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 # individual of the population. It holds parameters and fitness of the solution
@@ -67,12 +67,19 @@ def generate_prt_vector(prt, dimensions):
 def get_leader(population):
     return min(population, key = lambda individual: individual.fitness)
 
+# set graph params
+def set_graph(title, min_x, max_x, min_y, max_y):
+    plt.xlabel("FES")
+    plt.ylabel("fitness")
+    plt.grid(True)
+    plt.axis((min_x, max_x, min_y, max_y))
+    plt.title(title)
 
 # SOMA all-to-one algorithm
 def soma_all_to_one(population, prt, path_length, step, fes, min_s, max_s, dimensions, benchmark):
     fes_iteration = 0
-
     history_fitness_list = []
+    global_min_fitness = numpy.Inf
 
     while fes_iteration < fes: # check fes
         leader = get_leader(population)
@@ -101,7 +108,10 @@ def soma_all_to_one(population, prt, path_length, step, fes, min_s, max_s, dimen
                     next_position = current_position
                     individual.fitness = fitness
 
-                history_fitness_list.append(individual.fitness)
+                if fitness < global_min_fitness:
+                    global_min_fitness = fitness
+
+                history_fitness_list.append(global_min_fitness)
 
             individual.params = next_position
 
@@ -134,11 +144,28 @@ def run_algorithm(dimensions, min_border, max_border, benchmark):
 
 # run de jong first, d = 10
 djf10_best_fitnesses, djf10_history_fitnesses = run_algorithm(10, -5, 5, de_jong_first)
+
+set_graph("SOMA de jong first, d = 10", 0, 5000, 0, 50)
+for hf in djf10_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("djf_10.png")
+plt.clf()
+plt.cla()
+plt.close()
+
 djf10_min = numpy.min(djf10_best_fitnesses)
 djf10_max = numpy.max(djf10_best_fitnesses)
 djf10_mean = numpy.mean(djf10_best_fitnesses)
 djf10_median = numpy.median(djf10_best_fitnesses)
 djf10_std = numpy.std(djf10_best_fitnesses)
+
+dhf10_avg = numpy.mean(djf10_history_fitnesses, axis = 0)
+set_graph("SOMA de jong first, d = 10, avg", 0, 5000, 0, 50)
+plt.plot(range(1, len(dhf10_avg) + 1), dhf10_avg, linewidth = 1)
+plt.savefig("djf_10_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
 
 # # run de jong first, d = 30
 # djf30 = run_algorithm(30, -5, 5, de_jong_first)
