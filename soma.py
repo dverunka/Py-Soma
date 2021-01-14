@@ -7,7 +7,7 @@ pop_size = 50
 prt = 0.3
 path_lenght = 3
 step = 0.33
-iterations = 3 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+iterations = 30
 
 
 # individual of the population. It holds parameters and fitness of the solution
@@ -130,8 +130,7 @@ def run_algorithm(dimensions, min_border, max_border, benchmark):
     for i in range(iterations):
         population = generate_population(pop_size, min_s, max_s, dimensions, benchmark)
         winner, history_fitness_list = soma_all_to_one(population, prt, path_lenght, step, fes, min_s, max_s, dimensions, benchmark)
-        print(winner)
-        print("")
+        print(f"fitness: {winner.fitness}")
 
         fitness_list.append(winner.fitness)
         list_of_history_fitness_lists.append(history_fitness_list)
@@ -141,81 +140,220 @@ def run_algorithm(dimensions, min_border, max_border, benchmark):
 
 ###
 
-
 # run de jong first, d = 10
-djf10_best_fitnesses, djf10_history_fitnesses = run_algorithm(10, -5, 5, de_jong_first)
+djfirst10_best_fitnesses, djfirst10_history_fitnesses = run_algorithm(10, -5, 5, de_jong_first)
 
 set_graph("SOMA de jong first, d = 10", 0, 5000, 0, 50)
-for hf in djf10_history_fitnesses:
+for hf in djfirst10_history_fitnesses:
     plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
-plt.savefig("djf_10.png")
+plt.savefig("djfirst_10.png")
 plt.clf()
 plt.cla()
 plt.close()
 
-djf10_min = numpy.min(djf10_best_fitnesses)
-djf10_max = numpy.max(djf10_best_fitnesses)
-djf10_mean = numpy.mean(djf10_best_fitnesses)
-djf10_median = numpy.median(djf10_best_fitnesses)
-djf10_std = numpy.std(djf10_best_fitnesses)
+djfirst10_min = numpy.min(djfirst10_best_fitnesses)
+djfirst10_max = numpy.max(djfirst10_best_fitnesses)
+djfirst10_mean = numpy.mean(djfirst10_best_fitnesses)
+djfirst10_median = numpy.median(djfirst10_best_fitnesses)
+djfirst10_std = numpy.std(djfirst10_best_fitnesses)
+print(f"djfirst10 min: {djfirst10_min} max: {djfirst10_max} mean: {djfirst10_mean} median: {djfirst10_median} std: {djfirst10_std}")
 
-dhf10_avg = numpy.mean(djf10_history_fitnesses, axis = 0)
+djfirst10_avg = numpy.mean(djfirst10_history_fitnesses, axis = 0)
 set_graph("SOMA de jong first, d = 10, avg", 0, 5000, 0, 50)
-plt.plot(range(1, len(dhf10_avg) + 1), dhf10_avg, linewidth = 1)
-plt.savefig("djf_10_avg.png")
+plt.plot(range(1, len(djfirst10_avg) + 1), djfirst10_avg, linewidth = 1)
+plt.savefig("djfirst_10_avg.png")
 plt.clf()
 plt.cla()
 plt.close()
 
-# # run de jong first, d = 30
-# djf30 = run_algorithm(30, -5, 5, de_jong_first)
-# djf30_min = 
-# djf30_max = 
-# djf30_mean = 
-# djf30_median = 
-# djf30_std = 
 
-# # run de jong second, d = 10
-# djs10 = run_algorithm(10, -2, 2, de_jong_second)
-# djs10_min = 
-# djs10_max = 
-# djs10_mean = 
-# djs10_median = 
-# djs10_std = 
-# # run de jong second, d = 30
-# djs30 = run_algorithm(30, -2, 2, de_jong_second)
-# djs30_min = 
-# djs30_max = 
-# djs30_mean = 
-# djs30_median = 
-# djs30_std = 
+# run de jong first, d = 30
+djfirst30_best_fitnesses, djfirst30_history_fitnesses = run_algorithm(30, -5, 5, de_jong_first)
 
-# # run rastrigin, d = 10
-# ras10 = run_algorithm(10, -2, 2, rastrigin)
-# res10_min = 
-# res10_max = 
-# res10_mean = 
-# res10_median = 
-# res10_std = 
-# # run rastrigin, d = 30
-# ras30 = run_algorithm(30, -2, 2, rastrigin)
-# res30_min = 
-# res30_max = 
-# res30_mean = 
-# res30_median = 
-# res30_std = 
+set_graph("SOMA de jong first, d = 30", 0, 10000, 0, 100)
+for hf in djfirst30_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("djfirst_30.png")
+plt.clf()
+plt.cla()
+plt.close()
 
-# # run schwefel, d = 10
-# sch10 = run_algorithm(10, 0, 500, schwefel)
-# sch10_min = 
-# sch10_max = 
-# sch10_mean = 
-# sch10_median = 
-# sch10_std = 
-# # run schwefel, d = 30
-# sch30 = run_algorithm(30, 0, 500, schwefel)
-# sch30_min = 
-# sch30_max = 
-# sch30_mean = 
-# sch30_median = 
-# sch30_std = 
+djfirst30_min = numpy.min(djfirst30_best_fitnesses)
+djfirst30_max = numpy.max(djfirst30_best_fitnesses)
+djfirst30_mean = numpy.mean(djfirst30_best_fitnesses)
+djfirst30_median = numpy.median(djfirst30_best_fitnesses)
+djfirst30_std = numpy.std(djfirst30_best_fitnesses)
+print(f"djfirst30 min: {djfirst30_min} max: {djfirst30_max} mean: {djfirst30_mean} median: {djfirst30_median} std: {djfirst30_std}")
+
+djfirst30_avg = numpy.mean(djfirst30_history_fitnesses, axis = 0)
+set_graph("SOMA de jong first, d = 30, avg", 0, 10000, 0, 100)
+plt.plot(range(1, len(djfirst30_avg) + 1), djfirst30_avg, linewidth = 1)
+plt.savefig("djfirst_30_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+###
+
+# run de jong second, d = 10
+djsecond10_best_fitnesses, djsecond10_history_fitnesses = run_algorithm(10, -2, 2, de_jong_second)
+
+set_graph("SOMA de jong second, d = 10", 0, 50000, 0, 50)
+for hf in djsecond10_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("djsecond_10.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+djsecond10_min = numpy.min(djsecond10_best_fitnesses)
+djsecond10_max = numpy.max(djsecond10_best_fitnesses)
+djsecond10_mean = numpy.mean(djsecond10_best_fitnesses)
+djsecond10_median = numpy.median(djsecond10_best_fitnesses)
+djsecond10_std = numpy.std(djsecond10_best_fitnesses)
+print(f"djsecond10 min: {djsecond10_min} max: {djsecond10_max} mean: {djsecond10_mean} median: {djsecond10_median} std: {djsecond10_std}")
+
+djsecond10_avg = numpy.mean(djsecond10_history_fitnesses, axis = 0)
+set_graph("SOMA de jong second, d = 10, avg", 0, 50000, 0, 50)
+plt.plot(range(1, len(djsecond10_avg) + 1), djsecond10_avg, linewidth = 1)
+plt.savefig("djsecond_10_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+
+# run de jong second, d = 30
+djsecond30_best_fitnesses, djsecond30_history_fitnesses = run_algorithm(30, -2, 2, de_jong_second)
+
+set_graph("SOMA de jong second, d = 30", 0, 5000, 0, 5000)
+for hf in djsecond30_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("djsecond_30.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+djsecond30_min = numpy.min(djsecond30_best_fitnesses)
+djsecond30_max = numpy.max(djsecond30_best_fitnesses)
+djsecond30_mean = numpy.mean(djsecond30_best_fitnesses)
+djsecond30_median = numpy.median(djsecond30_best_fitnesses)
+djsecond30_std = numpy.std(djsecond30_best_fitnesses)
+print(f"djsecond30 min: {djsecond30_min} max: {djsecond30_max} mean: {djsecond30_mean} median: {djsecond30_median} std: {djsecond30_std}")
+
+djsecond30_avg = numpy.mean(djsecond30_history_fitnesses, axis = 0)
+set_graph("SOMA de jong second, d = 30, avg", 0, 5000, 0, 5000)
+plt.plot(range(1, len(djsecond30_avg) + 1), djsecond30_avg, linewidth = 1)
+plt.savefig("djsecond_30_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+###
+
+# run rastrigin, d = 10
+rastrigin10_best_fitnesses, rastrigin10_history_fitnesses = run_algorithm(10, -2, 2, rastrigin)
+
+set_graph("SOMA rastrigin, d = 10", 0, 500, -500, 500)
+for hf in rastrigin10_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("rastrigin_10.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+rastrigin10_min = numpy.min(rastrigin10_best_fitnesses)
+rastrigin10_max = numpy.max(rastrigin10_best_fitnesses)
+rastrigin10_mean = numpy.mean(rastrigin10_best_fitnesses)
+rastrigin10_median = numpy.median(rastrigin10_best_fitnesses)
+rastrigin10_std = numpy.std(rastrigin10_best_fitnesses)
+print(f"rastrigin10 min: {rastrigin10_min} max: {rastrigin10_max} mean: {rastrigin10_mean} median: {rastrigin10_median} std: {rastrigin10_std}")
+
+rastrigin10_avg = numpy.mean(rastrigin10_history_fitnesses, axis = 0)
+set_graph("SOMA rastrigin, d = 10, avg", 0, 500, -500, 500)
+plt.plot(range(1, len(rastrigin10_avg) + 1), rastrigin10_avg, linewidth = 1)
+plt.savefig("rastrigin_10_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+
+# run rastrigin, d = 30
+rastrigin30_best_fitnesses, rastrigin30_history_fitnesses = run_algorithm(30, -2, 2, rastrigin)
+
+set_graph("SOMA rastrigin, d = 30", 0, 500, -500, 500)
+for hf in rastrigin30_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("rastrigin_30.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+rastrigin30_min = numpy.min(rastrigin30_best_fitnesses)
+rastrigin30_max = numpy.max(rastrigin30_best_fitnesses)
+rastrigin30_mean = numpy.mean(rastrigin30_best_fitnesses)
+rastrigin30_median = numpy.median(rastrigin30_best_fitnesses)
+rastrigin30_std = numpy.std(rastrigin30_best_fitnesses)
+print(f"rastrigin30 min: {rastrigin30_min} max: {rastrigin30_max} mean: {rastrigin30_mean} median: {rastrigin30_median} std: {rastrigin30_std}")
+
+rastrigin30_avg = numpy.mean(rastrigin30_history_fitnesses, axis = 0)
+set_graph("SOMA rastrigin, d = 30, avg", 0, 500, -500, 500)
+plt.plot(range(1, len(rastrigin30_avg) + 1), rastrigin30_avg, linewidth = 1)
+plt.savefig("rastrigin_30_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+###
+
+# run schwefel, d = 10
+schwefel10_best_fitnesses, schwefel10_history_fitnesses = run_algorithm(10, 0, 500, schwefel)
+
+set_graph("SOMA schwefel, d = 10", 0, 50000, -5000, 0)
+for hf in schwefel10_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("schwefel_10.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+schwefel10_min = numpy.min(schwefel10_best_fitnesses)
+schwefel10_max = numpy.max(schwefel10_best_fitnesses)
+schwefel10_mean = numpy.mean(schwefel10_best_fitnesses)
+schwefel10_median = numpy.median(schwefel10_best_fitnesses)
+schwefel10_std = numpy.std(schwefel10_best_fitnesses)
+print(f"schwefel10 min: {schwefel10_min} max: {schwefel10_max} mean: {schwefel10_mean} median: {schwefel10_median} std: {schwefel10_std}")
+
+schwefel10_avg = numpy.mean(schwefel10_history_fitnesses, axis = 0)
+set_graph("SOMA schwefel, d = 10, avg", 0, 50000, -5000, 0)
+plt.plot(range(1, len(schwefel10_avg) + 1), schwefel10_avg, linewidth = 1)
+plt.savefig("schwefel_10_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+
+# run schwefel, d = 30
+schwefel30_best_fitnesses, schwefel30_history_fitnesses = run_algorithm(30, 0, 500, schwefel)
+
+set_graph("SOMA schwefel, d = 30", 0, 1000, -5000, 0)
+for hf in schwefel30_history_fitnesses:
+    plt.plot(range(1, len(hf) + 1), hf, linewidth = 0.5)
+plt.savefig("schwefel_30.png")
+plt.clf()
+plt.cla()
+plt.close()
+
+schwefel30_min = numpy.min(schwefel30_best_fitnesses)
+schwefel30_max = numpy.max(schwefel30_best_fitnesses)
+schwefel30_mean = numpy.mean(schwefel30_best_fitnesses)
+schwefel30_median = numpy.median(schwefel30_best_fitnesses)
+schwefel30_std = numpy.std(schwefel30_best_fitnesses)
+print(f"schwefel30 min: {schwefel30_min} max: {schwefel30_max} mean: {schwefel30_mean} median: {schwefel30_median} std: {schwefel30_std}")
+
+schwefel30_avg = numpy.mean(schwefel30_history_fitnesses, axis = 0)
+set_graph("SOMA schwefel, d = 30, avg", 0, 1000, -5000, 0)
+plt.plot(range(1, len(schwefel30_avg) + 1), schwefel30_avg, linewidth = 1)
+plt.savefig("schwefel_30_avg.png")
+plt.clf()
+plt.cla()
+plt.close()
