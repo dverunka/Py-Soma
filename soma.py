@@ -1,5 +1,5 @@
 import numpy
-from numpy import asarray
+import matplotlib.pyplot as plt
 
 
 # SOMA parameters
@@ -18,17 +18,6 @@ class Individual:
 
     def __repr__(self):
         return 'params: {} fitness: {}'.format(self.params, self.fitness)
-
-
-# class holding all the result information
-class Result:
-    def __init__(self, 
-                 iteration: int,
-                 dimensions: int,
-                 individual: Individual):
-        self.iteration = iteration
-        self.dimensions = dimensions
-        self.individual = individual
 
 
 # benchmark cost functions:
@@ -74,7 +63,6 @@ def generate_population(size, min_s, max_s, dimensions, benchmark):
 def generate_prt_vector(prt, dimensions):
     return numpy.random.choice([0, 1], dimensions, p=[prt, 1-prt])
 
-
 # find leader of the population by its fitness (the lower the better)
 def get_leader(population):
     return min(population, key = lambda individual: individual.fitness)
@@ -83,6 +71,9 @@ def get_leader(population):
 # SOMA all-to-one algorithm
 def soma_all_to_one(population, prt, path_length, step, fes, min_s, max_s, dimensions, benchmark):
     fes_iteration = 0
+
+    history_fitness_list = []
+
     while fes_iteration < fes: # check fes
         leader = get_leader(population)
 
@@ -110,9 +101,11 @@ def soma_all_to_one(population, prt, path_length, step, fes, min_s, max_s, dimen
                     next_position = current_position
                     individual.fitness = fitness
 
+                history_fitness_list.append(individual.fitness)
+
             individual.params = next_position
 
-    return get_leader(population)
+    return get_leader(population), history_fitness_list
 
 
 # run iterations of SOMA algorithm
@@ -121,38 +114,81 @@ def run_algorithm(dimensions, min_border, max_border, benchmark):
     min_s = generate_min_s(dimensions, min_border)
     max_s = generate_max_s(dimensions, max_border)
 
-    result_list = []
+    fitness_list = []
+    list_of_history_fitness_lists = []
 
     for i in range(iterations):
         population = generate_population(pop_size, min_s, max_s, dimensions, benchmark)
-        winner = soma_all_to_one(population, prt, path_lenght, step, fes, min_s, max_s, dimensions, benchmark)
+        winner, history_fitness_list = soma_all_to_one(population, prt, path_lenght, step, fes, min_s, max_s, dimensions, benchmark)
         print(winner)
         print("")
-        result = Result(i, dimensions, winner)
-        result_list.append(result)
 
-    return result_list
+        fitness_list.append(winner.fitness)
+        list_of_history_fitness_lists.append(history_fitness_list)
+
+    return fitness_list, list_of_history_fitness_lists
 
 
 ###
 
 
 # run de jong first, d = 10
-djf10 = run_algorithm(10, -5, 5, de_jong_first)
-# run de jong first, d = 30
-#djf30 = run_algorithm(30, -5, 5, de_jong_first)
+djf10_best_fitnesses, djf10_history_fitnesses = run_algorithm(10, -5, 5, de_jong_first)
+djf10_min = numpy.min(djf10_best_fitnesses)
+djf10_max = numpy.max(djf10_best_fitnesses)
+djf10_mean = numpy.mean(djf10_best_fitnesses)
+djf10_median = numpy.median(djf10_best_fitnesses)
+djf10_std = numpy.std(djf10_best_fitnesses)
 
-# run de jong second, d = 10
-djs10 = run_algorithm(10, -2, 2, de_jong_second)
-# run de jong second, d = 30
-#djs30 = run_algorithm(30, -2, 2, de_jong_second)
+# # run de jong first, d = 30
+# djf30 = run_algorithm(30, -5, 5, de_jong_first)
+# djf30_min = 
+# djf30_max = 
+# djf30_mean = 
+# djf30_median = 
+# djf30_std = 
 
-# run rastrigin, d = 10
-ras10 = run_algorithm(10, -2, 2, rastrigin)
-# run rastrigin, d = 30
-#ras30 = run_algorithm(30, -2, 2, rastrigin)
+# # run de jong second, d = 10
+# djs10 = run_algorithm(10, -2, 2, de_jong_second)
+# djs10_min = 
+# djs10_max = 
+# djs10_mean = 
+# djs10_median = 
+# djs10_std = 
+# # run de jong second, d = 30
+# djs30 = run_algorithm(30, -2, 2, de_jong_second)
+# djs30_min = 
+# djs30_max = 
+# djs30_mean = 
+# djs30_median = 
+# djs30_std = 
 
-# run schwefel, d = 10
-sch10 = run_algorithm(10, 0, 500, schwefel)
-# run schwefel, d = 30
-#sch30 = run_algorithm(30, 0, 500, schwefel)
+# # run rastrigin, d = 10
+# ras10 = run_algorithm(10, -2, 2, rastrigin)
+# res10_min = 
+# res10_max = 
+# res10_mean = 
+# res10_median = 
+# res10_std = 
+# # run rastrigin, d = 30
+# ras30 = run_algorithm(30, -2, 2, rastrigin)
+# res30_min = 
+# res30_max = 
+# res30_mean = 
+# res30_median = 
+# res30_std = 
+
+# # run schwefel, d = 10
+# sch10 = run_algorithm(10, 0, 500, schwefel)
+# sch10_min = 
+# sch10_max = 
+# sch10_mean = 
+# sch10_median = 
+# sch10_std = 
+# # run schwefel, d = 30
+# sch30 = run_algorithm(30, 0, 500, schwefel)
+# sch30_min = 
+# sch30_max = 
+# sch30_mean = 
+# sch30_median = 
+# sch30_std = 
